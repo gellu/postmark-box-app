@@ -1,0 +1,158 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "57935c8b7db37379289ddc801827d819",
+    "packages": [
+        {
+            "name": "jjaffeux/postmark-inbound-php",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jjaffeux/postmark-inbound-php.git",
+                "reference": "1da6c3b5a1a33f763b667ab29771d31d0a8a1490"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jjaffeux/postmark-inbound-php/zipball/1da6c3b5a1a33f763b667ab29771d31d0a8a1490",
+                "reference": "1da6c3b5a1a33f763b667ab29771d31d0a8a1490",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Postmark": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joffrey Jaffeux",
+                    "email": "j.jaffeux@gmail.com",
+                    "homepage": "http://www.twitter.com/joffreyjaffeux"
+                }
+            ],
+            "description": "Postmark Inbound PHP Wrapper",
+            "homepage": "https://github.com/jjaffeux/postmark-inbound-php",
+            "keywords": [
+                "api",
+                "inbound",
+                "mails",
+                "postmark",
+                "wrapper"
+            ],
+            "time": "2012-04-26 20:26:36"
+        },
+        {
+            "name": "slim/slim",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeguy/Slim.git",
+                "reference": "ff7d7148848fa4f45712984d7b91ac3cbced586b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeguy/Slim/zipball/ff7d7148848fa4f45712984d7b91ac3cbced586b",
+                "reference": "ff7d7148848fa4f45712984d7b91ac3cbced586b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-mcrypt": "Required for HTTP cookie encryption"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Slim": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Lockhart",
+                    "email": "info@joshlockhart.com",
+                    "homepage": "http://www.joshlockhart.com/"
+                }
+            ],
+            "description": "Slim Framework, a PHP micro framework",
+            "homepage": "http://github.com/codeguy/Slim",
+            "keywords": [
+                "microframework",
+                "rest",
+                "router"
+            ],
+            "time": "2013-11-29 20:33:36"
+        },
+        {
+            "name": "znarkus/postmark",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Znarkus/postmark-php.git",
+                "reference": "8e2206eae3cfa3967a5c8e1ac01ae8b9e9502008"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Znarkus/postmark-php/zipball/8e2206eae3cfa3967a5c8e1ac01ae8b9e9502008",
+                "reference": "8e2206eae3cfa3967a5c8e1ac01ae8b9e9502008",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Postmark": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT License"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Bull",
+                    "email": "gavroche.bull@gmail.com"
+                },
+                {
+                    "name": "beaudesigns",
+                    "email": "unknown@email.com"
+                }
+            ],
+            "description": "Postmark PHP class",
+            "homepage": "https://github.com/Znarkus/postmark-php",
+            "keywords": [
+                "email",
+                "postmark"
+            ],
+            "time": "2013-06-26 14:03:13"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "znarkus/postmark": 20
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}

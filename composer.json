@@ -1,5 +1,7 @@
 {
 	"require": {
-		"slim/slim": "2.*"
+		"slim/slim": "2.*",
+		"jjaffeux/postmark-inbound-php": ">=2.0",
+		"znarkus/postmark": "dev-master"
 	}
 }
