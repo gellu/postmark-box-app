@@ -47,11 +47,17 @@ $app->group('/box', function() use ($app, $db) {
 		if(!$inbound)
 		{
 			$app->response->setStatus('500');
-			echo json_encode(array('status' => 'error', 'msg' => 'Inboud msg error: '. $app->request->getBody()));
+			echo json_encode(array('status' => 'error', 'msg' => 'Inbound msg error: '. $app->request->getBody()));
 			$app->stop();
 		}
 
 		$source = (array) $inbound->Source;
+
+		if(!$source['MailboxHash'])
+		{
+			echo json_encode(array('status' => 'ok', 'msg' => 'No MailboxHash skipping...'));
+			$app->stop();
+		}
 
 		$receiver = $app->helper->getEmailByHash($source['MailboxHash']);
 
