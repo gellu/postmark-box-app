@@ -18,13 +18,13 @@ Example: `[your_api_uri]?app_key=[your_app_key]`
 
 **/box/create**
 
-description: Create new conversation between emails (use body template)
-method: `POST`
-params: `sender` - sender email, `receiver` - receiver email, `body` - email body
+description: Create new conversation between emails (use body template)   
+method: `POST`  
+params: `sender` - sender email, `receiver` - receiver email, `body` - email body  
 
 **/box/send**
 
-description: Parse and forward Postmark inbound message
-method: `POST`
-params:
-body: Postmark inbound webhook content (json)
+description: Parse and forward Postmark inbound message  
+method: `POST`  
+params:  
+body: Postmark inbound webhook content (json) 
