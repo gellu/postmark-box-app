@@ -37,7 +37,13 @@ $app->group('/box', function() use ($app, $db) {
 
 	});
 
-	$app->post('/send', function() use ($app, $db) {
+	$app->get('/send', function() use ($app, $db) {
+
+		if(!$app->request->getBody())
+		{
+			echo json_encode(array('status' => 'error', 'msg' => 'Request body is missing'));
+			$app->stop();
+		}
 
 		try
 		{
