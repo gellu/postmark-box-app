@@ -37,7 +37,7 @@ $app->group('/box', function() use ($app, $db) {
 
 	});
 
-	$app->get('/send', function() use ($app, $db) {
+	$app->map('/send', function() use ($app, $db) {
 
 		if(!$app->request->getBody())
 		{
@@ -93,6 +93,6 @@ $app->group('/box', function() use ($app, $db) {
 
 		echo json_encode(array('status' => $status ? 'ok' : 'error sending email'));
 
-	});
+	})->via('GET', 'POST');
 
 });
