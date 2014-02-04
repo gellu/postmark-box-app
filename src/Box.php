@@ -25,7 +25,7 @@ $app->group('/box', function() use ($app, $db) {
 		}
 
 		$status = Postmark\Mail::compose($app->config('appData')['postmark_api_key'])
-			->from($senderHashEmail)
+			->from($senderHashEmail, $app->config('appData')['name'])
 			->addTo($post['receiver'])
 			->subject($app->config('appData')['msg_subject_template'])
 			->messageHtml(str_replace('{{body}}', $post['body'], $app->config('appData')['msg_body_template']))
@@ -83,7 +83,7 @@ $app->group('/box', function() use ($app, $db) {
 		}
 
 		$status = Postmark\Mail::compose($app->config('appData')['postmark_api_key'])
-							   ->from($senderHashEmail)
+							   ->from($senderHashEmail, $inbound->FromName())
 							   ->addTo($receiver)
 							   ->subject($source['Subject'])
 							   ->messageHtml(htmlspecialchars_decode($source['HtmlBody']))
