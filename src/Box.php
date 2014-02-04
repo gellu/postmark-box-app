@@ -24,11 +24,25 @@ $app->group('/box', function() use ($app, $db) {
 			$app->stop();
 		}
 
+		### PARSE TEMPLATE
+		$msgTplElements = array('body' => $post['body']);
+		if(isset($post['body_vars']))
+		{
+			$msgTplElements = array_merge($msgTplElements, json_decode($post['body_vars'], true));
+		}
+
+		$body = $app->config('appData')['msg_body_template'];
+		foreach($msgTplElements as $elementName => $elementValue)
+		{
+			$body = str_replace('{{' . $elementName .'}}', $elementValue, $body);
+		}
+		### END PARSE TEMPLATE
+
 		$status = Postmark\Mail::compose($app->config('appData')['postmark_api_key'])
 			->from($senderHashEmail, $app->config('appData')['name'])
 			->addTo($post['receiver'])
 			->subject($app->config('appData')['msg_subject_template'])
-			->messageHtml(str_replace('{{body}}', $post['body'], $app->config('appData')['msg_body_template']))
+			->messageHtml($body)
 			->send();
 
 		$app->helper->touchBox($post['sender']);
