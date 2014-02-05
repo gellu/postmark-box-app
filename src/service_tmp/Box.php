@@ -6,6 +6,10 @@
 
 namespace Service;
 
+/**
+ * Class Box
+ * @package Service
+ */
 class Box extends Base
 {
 	const SALT = '289dhsjkalu3yiqr';

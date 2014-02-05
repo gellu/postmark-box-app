@@ -8,6 +8,10 @@ namespace Service;
 
 use Slim\Slim;
 
+/**
+ * Class Base
+ * @package Service
+ */
 abstract class Base {
 
 	/** @var  \Slim\Slim */
@@ -19,6 +23,7 @@ abstract class Base {
 	{
 		$this->_app = $app;
 		$this->_db = $db;
+
 	}
 
 }
