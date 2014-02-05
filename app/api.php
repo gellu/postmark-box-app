@@ -18,7 +18,8 @@ $env['PATH_INFO'] = substr($requestPath, 0, strlen($env['SCRIPT_NAME'])) == $env
 # fix end
 
 $app->notFound(function () use ($app) {
-	echo json_encode(array('status' => 'error', 'result' => 'Method not found'));
+	$app->response()->setStatus(404);
+	$app->responseBody = array('msg' => 'Method not found');
 });
 
 try {
@@ -34,7 +35,6 @@ require '../src/Middleware.php';
 
 // Authorize API call with app_key
 $app->add(new \APIAuthMiddleware($db));
-
 // Send proper headers for response
 $app->add(new \APIResponseMiddleware());
 
