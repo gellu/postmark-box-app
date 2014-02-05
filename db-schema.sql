@@ -25,12 +25,12 @@ CREATE TABLE `app` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-# Dump of table boxes
+# Dump of table box
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `boxes`;
+DROP TABLE IF EXISTS `box`;
 
-CREATE TABLE `boxes` (
+CREATE TABLE `box` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `hash` char(32) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -43,6 +43,20 @@ CREATE TABLE `boxes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+# Dump of table message
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `message`;
+
+CREATE TABLE `message` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sender` varchar(255) DEFAULT NULL,
+  `receiver` varchar(255) DEFAULT NULL,
+  `body` longtext,
+  `raw_body` longtext,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

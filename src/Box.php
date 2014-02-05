@@ -16,7 +16,7 @@ $app->group('/box', function() use ($app, $db) {
 			$app->stop();
 		}
 
-		$senderHashEmail = $app->helper->getHashEmail($post['sender']);
+		$senderHashEmail = $app->emailHelper->getHashEmail($post['sender']);
 
 		if($senderHashEmail === null)
 		{
@@ -45,7 +45,8 @@ $app->group('/box', function() use ($app, $db) {
 			->messageHtml($body)
 			->send();
 
-		$app->helper->touchBox($post['sender']);
+		$app->emailHelper->touchBox($post['sender']);
+		$app->emailHelper->saveEmail($post['sender'], $post['receiver'], $body);
 
 		echo json_encode(array('status' => $status ? 'ok' : 'error sending email'));
 
@@ -79,7 +80,7 @@ $app->group('/box', function() use ($app, $db) {
 			$app->stop();
 		}
 
-		$receiver = $app->helper->getEmailByHash($source['MailboxHash']);
+		$receiver = $app->emailHelper->getEmailByHash($source['MailboxHash']);
 
 		if(!$receiver)
 		{
@@ -88,7 +89,7 @@ $app->group('/box', function() use ($app, $db) {
 			$app->stop();
 		}
 
-		$senderHashEmail = $app->helper->getHashEmail($inbound->FromEmail());
+		$senderHashEmail = $app->emailHelper->getHashEmail($inbound->FromEmail());
 
 		if($senderHashEmail === null)
 		{
@@ -103,7 +104,8 @@ $app->group('/box', function() use ($app, $db) {
 							   ->messageHtml(htmlspecialchars_decode($source['HtmlBody']))
 							   ->send();
 
-		$app->helper->touchBox($inbound->FromEmail());
+		$app->emailHelper->touchBox($inbound->FromEmail());
+		$app->emailHelper->saveEmail($inbound->FromEmail(), $receiver, htmlspecialchars_decode($source['HtmlBody']), $app->request->getBody());
 
 		echo json_encode(array('status' => $status ? 'ok' : 'error sending email'));
 

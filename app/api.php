@@ -37,7 +37,7 @@ require '../src/Middleware.php';
 $app->add(new \APIAuthMiddleware($db));
 // Send proper headers for response
 $app->add(new \APIResponseMiddleware());
-$app->helper = new EmailHelper($app, $db);
+$app->emailHelper = new EmailHelper($app, $db);
 
 require '../src/Box.php';
 

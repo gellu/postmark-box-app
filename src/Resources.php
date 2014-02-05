@@ -26,7 +26,7 @@ class EmailHelper extends Helper
 
 	public function getHashEmail($email)
 	{
-		$sth = $this->_db->prepare('SELECT hash FROM boxes WHERE email = :email');
+		$sth = $this->_db->prepare('SELECT hash FROM box WHERE email = :email');
 		$sth->execute(array('email' => $email));
 		$res = $sth->fetch();
 
@@ -60,7 +60,7 @@ class EmailHelper extends Helper
 	 */
 	public function saveHash($email, $hash)
 	{
-		$sth = $this->_db->prepare('INSERT INTO boxes SET email = :email, hash = :hash, created_at = NOW()');
+		$sth = $this->_db->prepare('INSERT INTO box SET email = :email, hash = :hash, created_at = NOW()');
 		$sth->execute(array(
 			'email' => $email,
 			'hash'  => $hash,
@@ -80,18 +80,29 @@ class EmailHelper extends Helper
 
 	public function touchBox($email)
 	{
-		$sth = $this->_db->prepare('UPDATE boxes SET msg_count = msg_count+1, last_sent_at = NOW() WHERE email = :email');
+		$sth = $this->_db->prepare('UPDATE box SET msg_count = msg_count+1, last_sent_at = NOW() WHERE email = :email');
 		$sth->execute(array('email' => $email));
 		return $sth->rowCount() ? true : false;
 	}
 
 	public function getEmailByHash($hash)
 	{
-		$sth = $this->_db->prepare('SELECT email FROM boxes WHERE hash = :hash');
+		$sth = $this->_db->prepare('SELECT email FROM box WHERE hash = :hash');
 		$sth->execute(array('hash' => $hash));
 		$res = $sth->fetch();
 
 		return $res ? $res['email'] : null;
+	}
+
+	public function saveEmail($sender, $receiver, $body, $rowBody = '')
+	{
+		$sth = $this->_db->prepare('INSERT INTO message SET sender = :sender, receiver = :receiver, body = :body, raw_body = :raw_body, created_at = NOW()');
+		$sth->execute(array('sender' 	=> $sender,
+							'receiver'	=> $receiver,
+							'body'		=> $body,
+							'raw_body'	=> $rowBody));
+		return $sth->rowCount() ? true : false;
+
 	}
 
 }
