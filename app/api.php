@@ -5,12 +5,10 @@
  */
 
 require '../vendor/autoload.php';
-require '../src/Resources.php';
 
 $config = require 'config.php';
 
 $app = new \Slim\Slim($config['slim']);
-
 
 # fix for setting correct PATH_INFO
 $requestPath = parse_url($_SERVER['REQUEST_URI'])['path'];
@@ -24,8 +22,9 @@ $app->notFound(function () use ($app) {
 });
 
 try {
-	$db = new PDO('mysql:dbname='. $config['pdo']['name'] .';host='. $config['pdo']['host'], $config['pdo']['user'], $config['pdo']['pass']);
-	$db->exec("SET CHARACTER SET utf8");
+	$pdo = new PDO('mysql:dbname='. $config['pdo']['name'] .';host='. $config['pdo']['host'], $config['pdo']['user'], $config['pdo']['pass']);
+	$pdo->exec("SET CHARACTER SET utf8");
+	$db = new NotORM($pdo);
 } catch (PDOException $e) {
 	echo 'Connection failed: ' . $e->getMessage();
 }
@@ -35,9 +34,13 @@ require '../src/Middleware.php';
 
 // Authorize API call with app_key
 $app->add(new \APIAuthMiddleware($db));
+
 // Send proper headers for response
 $app->add(new \APIResponseMiddleware());
-$app->emailHelper = new EmailHelper($app, $db);
+
+// Services
+$app->boxService = new \Service\Box($app, $db);
+$app->messageService = new \Service\Message($app, $db);
 
 require '../src/Box.php';
 

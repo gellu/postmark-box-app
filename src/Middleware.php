@@ -25,7 +25,7 @@ class APIResponseMiddleware extends \Slim\Middleware
 class APIAuthMiddleware extends \Slim\Middleware
 {
 	/**
-	 * @var PDO
+	 * @var NotORM
 	 */
 	private $_db;
 
@@ -46,9 +46,7 @@ class APIAuthMiddleware extends \Slim\Middleware
 			return;
 		}
 
-		$sth = $this->_db->prepare('SELECT * FROM app WHERE app_key = :app_key LIMIT 1');
-		$sth->execute(array('app_key' => $this->_appKey));
-		$appData = $sth->fetch(PDO::FETCH_ASSOC);
+		$appData = $this->_db->app()->where('app_key', $this->_appKey)->limit(1)->fetch();
 
 		if(!$appData)
 		{

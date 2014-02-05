@@ -1,7 +1,14 @@
 {
 	"require": {
 		"slim/slim": "2.*",
+		"vrana/notorm": "dev-master",
 		"jjaffeux/postmark-inbound-php": ">=2.0",
 		"znarkus/postmark": "dev-master"
+	},
+
+	"autoload": {
+		"psr-0": {
+			"Service": "src/"
+		}
 	}
 }
