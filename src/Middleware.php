@@ -15,6 +15,18 @@ class APIResponseMiddleware extends \Slim\Middleware
 		$this->next->call();
 
 		$this->app->response()->header('Content-Type', 'application/json');
+
+		$response = array();
+
+		$response['status'] = $this->app->response()->getStatus();
+
+		if(is_array($this->app->responseBody))
+		{
+			$response = array_merge($response, $this->app->responseBody);
+		}
+
+		$this->app->response()->setBody(json_encode($response));
+
 	}
 }
 

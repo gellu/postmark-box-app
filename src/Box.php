@@ -6,22 +6,26 @@
 
 $app->group('/box', function() use ($app, $db) {
 
+	$app->get('/test', function() use ($app, $db) {
+
+	});
+
 	$app->post('/create', function() use ($app, $db) {
 
 		$post = $app->request->post();
 
 		if(!$post['sender'] || !$post['receiver'] || !$post['body'])
 		{
-			echo json_encode(array('status' => 'error', 'result' => 'Wrong params!'));
-			$app->stop();
+			$app->responseBody = array('msg' => 'Wrong params!');
+			$app->halt(500);
 		}
 
 		$senderHashEmail = $app->boxService->getHashEmail($post['sender']);
 
 		if($senderHashEmail === null)
 		{
-			echo json_encode(array('status' => 'error', 'result' => "Can't create sender hash email"));
-			$app->stop();
+			$app->responseBody = array('msg' => "Can't create sender hash email");
+			$app->halt(500);
 		}
 
 		### PARSE TEMPLATE
@@ -45,10 +49,14 @@ $app->group('/box', function() use ($app, $db) {
 			->messageHtml($body)
 			->send();
 
+		if(!$status)
+		{
+			$app->responseBody = array('msg' => 'error sending email');
+			$app->halt(500);
+		}
+
 		$app->boxService->touchBox($post['sender']);
 		$app->messageService->saveEmail($post['sender'], $post['receiver'], $body);
-
-		echo json_encode(array('status' => $status ? 'ok' : 'error sending email'));
 
 	});
 
@@ -56,45 +64,42 @@ $app->group('/box', function() use ($app, $db) {
 
 		if(!$app->request->getBody())
 		{
-			echo json_encode(array('status' => 'error', 'msg' => 'Request body is missing'));
-			$app->stop();
+			$app->responseBody = array('msg' => 'Request body is missing');
+			$app->halt(500);
 		}
 
-		try
-		{
+		try {
 			$inbound = new Postmark\Inbound($app->request->getBody());
 		} catch (Exception $e) {}
 
 		if(!$inbound)
 		{
-			$app->response->setStatus('500');
-			echo json_encode(array('status' => 'error', 'msg' => 'Inbound msg error: '. $app->request->getBody()));
-			$app->stop();
+			$app->responseBody = array('msg' => 'Inbound msg error: '. $app->request->getBody());
+			$app->halt(500);
 		}
 
 		$source = (array) $inbound->Source;
 
 		if(!$source['MailboxHash'])
 		{
-			echo json_encode(array('status' => 'ok', 'msg' => 'No MailboxHash skipping...'));
-			$app->stop();
+			$app->responseBody = array('msg' => 'No MailboxHash skipping...');
+			$app->halt(404);
 		}
 
 		$receiver = $app->boxService->getEmailByHash($source['MailboxHash']);
 
 		if(!$receiver)
 		{
-			$app->response->setStatus('500');
-			echo json_encode(array('status' => 'error', 'msg' => 'No email for '. $source['MailboxHash'] .' hash'));
-			$app->stop();
+			$app->responseBody = array('msg' => 'No email for '. $source['MailboxHash'] .' hash');
+			$app->halt(404);
 		}
 
 		$senderHashEmail = $app->boxService->getHashEmail($inbound->FromEmail());
 
 		if($senderHashEmail === null)
 		{
-			echo json_encode(array('status' => 'error', 'result' => "Can't create sender hash email"));
-			$app->stop();
+			$app->responseBody = array('msg' => "Can't create sender hash email");
+			$app->halt(500);
 		}
 
 		$status = Postmark\Mail::compose($app->config('appData')['postmark_api_key'])
@@ -104,10 +109,15 @@ $app->group('/box', function() use ($app, $db) {
 							   ->messageHtml(htmlspecialchars_decode($source['HtmlBody']))
 							   ->send();
 
+		if(!$status)
+		{
+			$app->responseBody = array('msg' =>'Error sending email');
+			$app->halt(500);
+		}
+
 		$app->boxService->touchBox($inbound->FromEmail());
 		$app->messageService->saveEmail($inbound->FromEmail(), $receiver, htmlspecialchars_decode($source['HtmlBody']), $app->request->getBody());
 
-		echo json_encode(array('status' => $status ? 'ok' : 'error sending email'));
 
 	})->via('GET', 'POST');
 

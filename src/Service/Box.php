@@ -12,13 +12,16 @@ namespace Service;
  */
 class Box extends Base
 {
+	/** Salt for email hashing */
 	const SALT = '289dhsjkalu3yiqr';
 
-	public function showSalt()
-	{
-		echo self::SALT;
-	}
-
+	/**
+	 * Get hash for email,. If it's not already created, create it.
+	 *
+	 * @param $email
+	 *
+	 * @return null|string
+	 */
 	public function getHashEmail($email)
 	{
 		$res = $this->_db->box()->where('email', $email)->fetch();
@@ -46,6 +49,8 @@ class Box extends Base
 	}
 
 	/**
+	 * Save email hash as new box.
+	 *
 	 * @param $email
 	 * @param $hash
 	 *
@@ -63,6 +68,8 @@ class Box extends Base
 	}
 
 	/**
+	 * Build email address according to app template and hash
+	 *
 	 * @param $hash
 	 *
 	 * @return string
@@ -72,6 +79,13 @@ class Box extends Base
 		return str_replace('{{hash}}', $hash, $this->_app->config('appData')['email_pattern']);
 	}
 
+	/**
+	 * Update msg_count and last_sent_at of box
+	 *
+	 * @param $email
+	 *
+	 * @return bool
+	 */
 	public function touchBox($email)
 	{
 		$box = array(
@@ -82,6 +96,11 @@ class Box extends Base
 		return $this->_db->box()->where('email', $email)->fetch()->update($box) ? true : false;
 	}
 
+	/**
+	 * @param $hash
+	 *
+	 * @return string|null
+	 */
 	public function getEmailByHash($hash)
 	{
 		$res = $this->_db->box()->where('hash', $hash)->fetch();

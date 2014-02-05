@@ -6,9 +6,22 @@
 
 namespace Service;
 
+/**
+ * Class Message
+ * @package Service
+ */
 class Message extends Base
 {
-
+	/**
+	 * Saves email as message
+	 *
+	 * @param        $sender
+	 * @param        $receiver
+	 * @param        $body
+	 * @param string $rowBody
+	 *
+	 * @return bool
+	 */
 	public function saveEmail($sender, $receiver, $body, $rowBody = '')
 	{
 		$message = array(
