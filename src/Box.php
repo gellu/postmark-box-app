@@ -97,7 +97,7 @@ $app->group('/box', function() use ($app, $db) {
 		}
 
 		$status = Postmark\Mail::compose($app->config('appData')['postmark_api_key'])
-							   ->from($senderHashEmail, $inbound->FromName())
+							   ->from($senderHashEmail, $app->config('appData')['name'])
 							   ->addTo($receiver)
 							   ->subject($source['Subject'])
 							   ->messageHtml(htmlspecialchars_decode($source['HtmlBody']))
