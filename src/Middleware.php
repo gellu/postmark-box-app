@@ -54,16 +54,16 @@ class APIAuthMiddleware extends \Slim\Middleware
 
 		if(!$this->_appKey)
 		{
-			echo json_encode(array('status' => 'error', 'result' => 'Please provide app key'));
-			return;
+			$this->app->responseBody = array('msg' => 'Please provide app key');
+			$this->app->halt(500);
 		}
 
 		$appData = $this->_db->app()->where('app_key', $this->_appKey)->limit(1)->fetch();
 
 		if(!$appData)
 		{
-			echo json_encode(array('status' => 'error', 'result' => 'App key is invalid'));
-			return;
+			$this->app->responseBody = array('msg' => 'App key is invalid');
+			$this->app->halt(500);
 		}
 
 		$this->app->config('appData', $appData);
