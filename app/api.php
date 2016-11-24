@@ -23,7 +23,7 @@ $app->notFound(function () use ($app) {
 });
 
 try {
-	$pdo = new PDO('mysql:dbname='. $config['pdo']['name'] .';host='. $config['pdo']['host'], $config['pdo']['user'], $config['pdo']['pass']);
+	$pdo = new PDO('mysql:dbname='. $config['pdo']['name'] .';host='. $config['pdo']['host'].($config['pdo']['port'] ? ':'.$config['pdo']['port'] : ''), $config['pdo']['user'], $config['pdo']['pass']);
 	$pdo->exec("SET CHARACTER SET utf8");
 	$db = new NotORM($pdo);
 } catch (PDOException $e) {
@@ -46,3 +46,12 @@ require '../src/Box.php';
 
 $app->run();
 
+if($app->response()->getStatus() != 200)
+{
+	$db->error()->insert([
+		'error'      => $app->response()->getBody(),
+		'request'    => serialize($app->request()),
+		'response'   => serialize($app->response()),
+		'created_at' => new NotORM_Literal("NOW()"),
+	]);
+}

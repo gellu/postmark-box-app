@@ -1,3 +1,16 @@
+# ************************************************************
+# Sequel Pro SQL dump
+# Version 4541
+#
+# http://www.sequelpro.com/
+# https://github.com/sequelpro/sequelpro
+#
+# Host: fernet.foser.net (MySQL 5.5.5-10.0.21-MariaDB-1~wheezy-log)
+# Database: postmark-box-app
+# Generation Time: 2016-11-24 15:34:59 +0000
+# ************************************************************
+
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -25,6 +38,7 @@ CREATE TABLE `app` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+
 # Dump of table box
 # ------------------------------------------------------------
 
@@ -43,6 +57,23 @@ CREATE TABLE `box` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+
+# Dump of table error
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `error`;
+
+CREATE TABLE `error` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `error` longtext NOT NULL,
+  `request` longtext NOT NULL,
+  `response` longtext NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Dump of table message
 # ------------------------------------------------------------
 
@@ -57,6 +88,9 @@ CREATE TABLE `message` (
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
