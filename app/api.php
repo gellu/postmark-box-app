@@ -50,8 +50,8 @@ if($app->response()->getStatus() != 200)
 {
 	$db->error()->insert([
 		'error'      => $app->response()->getBody(),
-		'request'    => serialize($app->request()),
-		'response'   => serialize($app->response()),
+		'request'    => '',
+		'response'   => '',
 		'created_at' => new NotORM_Literal("NOW()"),
 	]);
 }
